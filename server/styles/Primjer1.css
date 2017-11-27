@@ -1,0 +1,118 @@
+#navigation {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    background-color: #333;
+}
+
+#navigation li {
+    float: left;
+}
+
+#navigation li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+#search, #searchBtn {
+    display: block;
+    margin-top: 10px;
+    height: 28px;
+    font-size: 18px;
+    border: solid 1px #CCC;
+}
+
+#search {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    margin-left: 5px;
+    padding-left: 5px;
+}
+
+#searchBtn {
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    outline: none;
+    width: 120%;
+}
+
+#searchBtn:hover {
+    background-color: darkgray;
+    box-shadow: 0 0 10px black;
+
+}
+
+#search:focus {
+    outline: none;
+}
+
+#navigation li a:hover {
+    background-color: #111;
+}
+
+#ads {
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+#ads a {
+    text-decoration: none;
+    outline: #333;
+    color: black;
+    border: none;
+}
+
+.ad {
+    display: inline-block;
+    margin: 10px 10px 10px 10px;
+}
+
+.adImg {
+    height: 200px;
+    width: 300px;
+    border: solid 2px #333;
+    /*margin-top: 10px;
+    margin-bottom: 10px;*/
+}
+
+.adTitle {
+    font-size: 18px;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+}
+
+.price {
+    font-size: 18px;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+    background: #CCC;
+}
+
+.ad {
+  -webkit-transition: all 1s ease;
+     -moz-transition: all 1s ease;
+       -o-transition: all 1s ease;
+      -ms-transition: all 1s ease;
+          transition: all 1s ease;
+}
+
+.ad:hover {
+  transform: scale(1.1);
+}
+
+#alertItem {
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 150%;
+    color: red;
+}
+
+.found {
+    border:3px solid red;
+}

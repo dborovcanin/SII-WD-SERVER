@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+
+	<link rel="stylesheet" type="text/css" href="../styles/Primjer1.css">
+	<script src="../scripts/primjer1.js"></script>
+</head>
+
+<body onload="fillData(content)">
+	<ul id="navigation">
+		<li><a class="active" href="#home">Home</a></li>
+		<li><a href="/#/zadatak1.html">Publish</a></li>
+		<li style="float:right"><a href="#profile">My profile</a></li>
+		<li style="float:right; padding-top:5px"><img src="../resources/imgs/profile.png" alt="Profile image" height="40px" width="40px"></li>
+		<li><input type="search" onblur="clearAlert()" id="search" onkeyup="srch(event)" placeholder="search"></li>
+		<li><button id="searchBtn" onclick="searchByTitle()" onblur="clearAlert()" class="search"><img src="../resources/imgs/search.png" width="23px" height="23px"></button></li>
+		<li id="alertItem"></li>
+	</ul>
+	<br>
+
+	<div id="ads">
+
+	</div>
+</body>
+
+</html>
