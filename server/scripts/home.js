@@ -5,6 +5,7 @@ function fillTemplate(data, id) {
     ad.onclick = function() {
         window.location.href = "/element?id=" + id;
     }
+    console.log(id);
     ad.classList.add('ad');
     ad.setAttribute('id', id);
 
@@ -41,7 +42,7 @@ function getData() {
             fillData(content);
         }
     };
-    xhttp.open("GET", "sadrzaj", true);
+    xhttp.open("GET", "../sadrzaj", true);
     xhttp.send();
 }
 
@@ -51,7 +52,8 @@ function fillData(data) {
         advertisements.removeChild(advertisements.firstChild);
     }
     for (var elem in data) {
-        advertisements.appendChild(fillTemplate(data[elem], elem));
+        advertisements.appendChild(fillTemplate(data[elem], data[elem].id));
+        console.log(elem);
     }
 }
 

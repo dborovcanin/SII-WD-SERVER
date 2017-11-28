@@ -38,6 +38,12 @@ app.get('/login', function (req, res) {
   res.end(html);
 });
 
+app.get('/register', function (req, res) {
+  var html = fs.readFileSync("./templates" + req.path + ".html");
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end(html);
+});
+
 // Sav CSS je ovdje.
 app.get('/styles/*', function (req, res) {
   var css = fs.readFileSync("." + req.path);
@@ -52,12 +58,17 @@ app.get('/scripts/*', function (req, res) {
   res.end(js);
 });
 
+
 app.get('/element', function(req, res) {
   var html = fs.readFileSync("./templates" + req.path + ".html");
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
 })
 
+/*
+Adresa koja klijentu vraca pojedinacne elemente liste sadrzaj, u zavisnosti od toga
+koje je id u zahtevu
+*/
 app.get('/elementData*', function (req, res) {
   var ret = null;
   if (Object.keys(req.query).length === 0)
@@ -77,7 +88,11 @@ function notFound(req, res) {
   res.end('<h1>Not found :(.<h1>');
 }
 
-
+/*
+adresa koja nam vraca delove liste sadrzaj. Ako zahtev nema neki upit, vratice sve elemente
+te liste. Ako smo vrsili pretragu, pozvace search() funkciju i poslati klijentu njenu 
+povratnu vrednost 
+*/
 app.get('/sadrzaj', function (req, res) {
   var ret = null;
   if (Object.keys(req.query).length === 0)
@@ -89,6 +104,10 @@ app.get('/sadrzaj', function (req, res) {
   res.end(ret);  
 });
 
+/*
+Funkcija koja kao parametar prima izraz po kom je vrsena pretraga i vraca nam delove
+liste sadrzaj ciji se title atribut slaze sa tim izrazom
+*/
 function search(query) {
   var q = query.criteria.toLowerCase();
   return sadrzaj.filter(function(elem) {
@@ -121,6 +140,11 @@ app.post('/logintest/', function (req, res) {
   }
 });
 
+
+/*
+Primer POST metode koja dovodi do dodavanja novog korisnika 
+i redirektuje nazad na startnu stranicu
+*/
 app.post('/registertest/', function (req, res) {
   var noviKorisnik = new Object;
   noviKorisnik.ime = req.body.ime;

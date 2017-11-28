@@ -17,6 +17,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(xhttp.responseText);
                     content = JSON.parse(xhttp.responseText);
+                    console.log(content)
                     fillData(content);
                 }
             };
