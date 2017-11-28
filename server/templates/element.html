@@ -2,6 +2,7 @@
 
 <head>
     <meta charset="utf-8">
+    <script type="text/javascript" src="../scripts/single-element.js"></script>
     <script type="text/javascript">
         function fillData(content) {
             var header = document.getElementById("header");
@@ -10,34 +11,31 @@
             img.setAttribute("src", content.image);
             var price = document.getElementById('price');
             price.appendChild(document.createTextNode(content.price));
-            var brisanje = document.getElementById("brisanje");
-            brisanje.setAttribute("href" , "../brisi?id=" + content.id);
-            var izmena = document.getElementById("izmena");
-            izmena.setAttribute("href" , "../izmeni?id=" + content.id);
-        }
-        function load() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log(xhttp.responseText);
-                    content = JSON.parse(xhttp.responseText);
-                    console.log(content)
-                    fillData(content);
-                }
+            var edit = document.getElementById("edit");
+            edit.setAttribute("href" , "../edit?id=" + content.id);
+            var remove = document.getElementById("remove");
+            remove.onclick = function () {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    console.log(this.status);
+                    if (this.readyState == 4 && this.status == 204) { // Status 204 ==> obrisano 
+                        window.location.pathname = "/";
+                    }
+                };
+                xhttp.open("DELETE", "remove?id=" + content.id, true);
+                xhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                xhttp.send();
             };
-            xhttp.open("GET", "elementData" + window.location.search, true);
-            xhttp.send();
-
         }
     </script>
 </head>
 
-<body onload="load()">
+<body onload="load(fillData)">
     <h1 id="header"></h1>
     <h2 id="price"></h2>
     <img id="image" alt="image" src="."><br>
-    <a id = "brisanje" href=".">Obriši ovaj element </a><br>
-    <a id = "izmena" href=".">Izmeni ovaj element </a> 
+    <button id="remove">Obriši ovaj element </button><br>
+    <a id = "edit" href="#">Izmeni ovaj element </a> 
 </body>
 
 </html>

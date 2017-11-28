@@ -13,10 +13,10 @@ app.use(bodyParser.json());
 
 
 var templates = "./templates/";
-var korisniciFajl = "./files/korisnici.json";
+var usersFile = "./files/korisnici.json";
 var sadrzajFajl = "./files/sadrzaj.json";
 
-var korisnici = file.ucitajIzFajla(korisniciFajl);
+var users = file.ucitajIzFajla(usersFile);
 var sadrzaj = file.ucitajIzFajla(sadrzajFajl);
 
 // Ako gadjamo default, treba da se vrati ova stranica.
@@ -44,6 +44,8 @@ app.get('/register', function (req, res) {
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
 });
+
+app.post('/re')
 
 // Sav CSS je ovdje.
 app.get('/styles/*', function (req, res) {
@@ -106,17 +108,17 @@ funkcija za brisanje nekog elementa iz sadrzaja i onda redirektuje klijenta na h
 preporucljivo sacuvati backup verziju sadrzaj.json fajla pre nego sto pokusate ovo da ne morate
 rucno da dopisujete izbrisan element 
 */
-app.get('/brisi*' , function(req, res) {
+app.delete('/remove*' , function(req, res) {
   if (Object.keys(req.query).length === 0)
     notFound(req, res);
   var id = req.query.id;
-  for (i = 0; i < sadrzaj.length; i ++){
+  for (i = 0; i < sadrzaj.length; i ++){ // Moze se koristiti findIndex funkcija umesto petlje.
     if (sadrzaj[i].id == id){
-      console.log(sadrzaj.splice(i, 1));
       file.pisiUFajl(sadrzajFajl, sadrzaj);
     }
   }
-  res.redirect("/");
+  res.writeHead(204, { 'Content-Type': 'text/html' });
+  res.end();
 });
 
 /*
@@ -140,11 +142,11 @@ app.get('/resources/*', function (req, res) {
   res.sendFile(req.path, { root: path.join(__dirname, '.') });
 });
 
-// Samo primjer POST metode.
-app.post('/logintest/', function (req, res) {
+// Primjer POST metode. U HTML kodu pogledati kako se salje zahtev.
+app.post('/login/', function (req, res) { // Na jedan endpoint se mogu slati razliciti zahtevi: GET, POST...
   var username = req.body.username;
   var password = req.body.password;
-  var user = searchEngine.findUser(username, password, korisnici);
+  var user = searchEngine.findUser(username, password, users);
   if (user) {
     res.writeHead(200, { "Content-Type": 'text/html' });
     res.end("Uspeli ste da se ulogujete kao " + user.username);
@@ -155,11 +157,18 @@ app.post('/logintest/', function (req, res) {
   }
 });
 
+app.get('/edit', function (req, res) {
+  var html = fs.readFileSync("./templates" + req.path + ".html");
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end(html);
+})
+
 /*
-Funkcija koja prosledjuje podatke iz forme za izmenu i pise ih u fajl
+Funkcija koja prosledjuje podatke iz forme za izmenu i pise ih u fajl.
 */
-app.post('/izmena*', function (req, res) {
+app.put('/edit', function (req, res) {
   var id = req.query.id
+  console.log(req.body);
   for (i = 0; i < sadrzaj.length; i++) {
     if (sadrzaj[i].id == id) {
       sadrzaj[i].price = req.body.price;
@@ -167,20 +176,27 @@ app.post('/izmena*', function (req, res) {
       file.pisiUFajl(sadrzajFajl, sadrzaj);
     }
   }
-  res.redirect('/');
+  // res.redirect('/');
 });
+
 /*
 Primer POST metode koja dovodi do dodavanja novog korisnika 
 i redirektuje nazad na startnu stranicu
 */
-app.post('/registertest/', function (req, res) {
-  var noviKorisnik = new Object;
-  noviKorisnik.ime = req.body.ime;
-  noviKorisnik.sifra = req.body.sifra;
-  noviKorisnik.id = korisnici.length;
-  korisnici.push(noviKorisnik);
-  file.pisiUFajl(korisniciFajl, korisnici);
-  res.redirect("/");
+app.post('/register/', function (req, res) {
+  var newUser = new Object(); // I ovaj nacin pravljenja objekata; sematika kao varnewUser = {};
+  newUser.username = req.body.username;
+  newUser.password = req.body.password;
+  newUser.id = users.length;
+  if (searchEngine.checkIfUserExists(newUser.username, users)) {
+    res.writeHead(409, { 'Content-Type': 'text/html' }); // Code 409 oznacava konflikt.
+    res.end('Korisnik vec postoji!');
+  }
+  else {
+    users.push(newUser);
+    file.pisiUFajl(usersFile, users);
+    res.redirect("/");  
+  }
 });
 
 port = 3000;

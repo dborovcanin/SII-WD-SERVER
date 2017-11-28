@@ -11,7 +11,15 @@ function findUser(username, password, users) {
   });
 }
 
+function checkIfUserExists(username, users) {
+  return users.find(function(elem) {
+    return elem.username === username;
+  });
+}
+
+
 module.exports = {
   search: search,
-  findUser: findUser
+  findUser: findUser,
+  checkIfUserExists: checkIfUserExists
 }

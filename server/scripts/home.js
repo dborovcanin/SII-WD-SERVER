@@ -5,7 +5,6 @@ function fillTemplate(data, id) {
     ad.onclick = function() {
         window.location.href = "/element?id=" + id;
     }
-    console.log(id);
     ad.classList.add('ad');
     ad.setAttribute('id', id);
 
@@ -53,7 +52,6 @@ function fillData(data) {
     }
     for (var elem in data) {
         advertisements.appendChild(fillTemplate(data[elem], data[elem].id));
-        console.log(elem);
     }
 }
 
