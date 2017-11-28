@@ -65,6 +65,12 @@ app.get('/element', function(req, res) {
   res.end(html);
 })
 
+app.get('/izmeni', function(req, res) {
+  var html = fs.readFileSync("./templates" + req.path + ".html");
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end(html);
+})
+
 /*
 Adresa koja klijentu vraca pojedinacne elemente liste sadrzaj, u zavisnosti od toga
 koje je id u zahtevu
@@ -158,7 +164,20 @@ app.post('/logintest/', function (req, res) {
   }
 });
 
-
+/*
+Funkcija koja prosledjuje podatke iz forme za izmenu i pise ih u fajl
+*/
+app.post('/izmena*', function (req, res) {
+  var id = req.query.id
+  for (i = 0; i < sadrzaj.length; i++) {
+    if (sadrzaj[i].id == id) {
+      sadrzaj[i].price = req.body.price;
+      sadrzaj[i].title = req.body.header;
+      file.pisiUFajl(sadrzajFajl, sadrzaj);
+    }
+  }
+  res.redirect('/');
+});
 /*
 Primer POST metode koja dovodi do dodavanja novog korisnika 
 i redirektuje nazad na startnu stranicu
