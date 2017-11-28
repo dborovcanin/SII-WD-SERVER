@@ -88,6 +88,19 @@ function notFound(req, res) {
   res.end('<h1>Not found :(.<h1>');
 }
 
+app.get('/brisi*' , function(req, res) {
+  if (Object.keys(req.query).length === 0)
+    notFound(req, res);
+  var id = req.query.id;
+  for (i = 0; i < sadrzaj.length; i ++){
+    if (sadrzaj[i].id == id){
+      console.log(sadrzaj.splice(i, 1));
+      file.pisiUFajl(sadrzajFajl, sadrzaj);
+    }
+  }
+  res.redirect("/");
+});
+
 /*
 adresa koja nam vraca delove liste sadrzaj. Ako zahtev nema neki upit, vratice sve elemente
 te liste. Ako smo vrsili pretragu, pozvace search() funkciju i poslati klijentu njenu 
