@@ -88,6 +88,11 @@ function notFound(req, res) {
   res.end('<h1>Not found :(.<h1>');
 }
 
+/*
+funkcija za brisanje nekog elementa iz sadrzaja i onda redirektuje klijenta na home stranicu,
+preporucljivo sacuvati backup verziju sadrzaj.json fajla pre nego sto pokusate ovo da ne morate
+rucno da dopisujete izbrisan element 
+*/
 app.get('/brisi*' , function(req, res) {
   if (Object.keys(req.query).length === 0)
     notFound(req, res);
@@ -102,7 +107,7 @@ app.get('/brisi*' , function(req, res) {
 });
 
 /*
-adresa koja nam vraca delove liste sadrzaj. Ako zahtev nema neki upit, vratice sve elemente
+funkcija koja nam vraca delove liste sadrzaj. Ako zahtev nema neki upit, vratice sve elemente
 te liste. Ako smo vrsili pretragu, pozvace search() funkciju i poslati klijentu njenu 
 povratnu vrednost 
 */
