@@ -10,6 +10,10 @@
             img.setAttribute("src", content.image);
             var price = document.getElementById('price');
             price.appendChild(document.createTextNode(content.price));
+            var brisanje = document.getElementById("brisanje");
+            brisanje.setAttribute("href" , "../brisi?id=" + content.id);
+            var izmena = document.getElementById("izmena");
+            izmena.setAttribute("href" , "../izmeni?id=" + content.id);
         }
         function load() {
             var xhttp = new XMLHttpRequest();
@@ -17,6 +21,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(xhttp.responseText);
                     content = JSON.parse(xhttp.responseText);
+                    console.log(content)
                     fillData(content);
                 }
             };
@@ -30,7 +35,9 @@
 <body onload="load()">
     <h1 id="header"></h1>
     <h2 id="price"></h2>
-    <img id="image" alt="image" src=".">
+    <img id="image" alt="image" src="."><br>
+    <a id = "brisanje" href=".">Obriši ovaj element </a><br>
+    <a id = "izmena" href=".">Izmeni ovaj element </a> 
 </body>
 
 </html>

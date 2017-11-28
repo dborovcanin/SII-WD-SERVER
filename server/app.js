@@ -39,6 +39,12 @@ app.get('/login', function (req, res) {
   res.end(html);
 });
 
+app.get('/register', function (req, res) {
+  var html = fs.readFileSync("./templates" + req.path + ".html");
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end(html);
+});
+
 // Sav CSS je ovdje.
 app.get('/styles/*', function (req, res) {
   var css = fs.readFileSync("." + req.path);
@@ -60,12 +66,23 @@ app.get('/scripts/*.js', function (req, res) {
   res.end(js);
 });
 
+
 app.get('/element', function(req, res) {
   var html = fs.readFileSync("./templates" + req.path + ".html");
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
 })
 
+app.get('/izmeni', function(req, res) {
+  var html = fs.readFileSync("./templates" + req.path + ".html");
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end(html);
+})
+
+/*
+Adresa koja klijentu vraca pojedinacne elemente liste sadrzaj, u zavisnosti od toga
+koje je id u zahtevu
+*/
 app.get('/elementData*', function (req, res) {
   var ret = null;
   if (Object.keys(req.query).length === 0)
@@ -84,7 +101,29 @@ function notFound(req, res) {
   res.end('<h1>Not found :(.<h1>');
 }
 
+/*
+funkcija za brisanje nekog elementa iz sadrzaja i onda redirektuje klijenta na home stranicu,
+preporucljivo sacuvati backup verziju sadrzaj.json fajla pre nego sto pokusate ovo da ne morate
+rucno da dopisujete izbrisan element 
+*/
+app.get('/brisi*' , function(req, res) {
+  if (Object.keys(req.query).length === 0)
+    notFound(req, res);
+  var id = req.query.id;
+  for (i = 0; i < sadrzaj.length; i ++){
+    if (sadrzaj[i].id == id){
+      console.log(sadrzaj.splice(i, 1));
+      file.pisiUFajl(sadrzajFajl, sadrzaj);
+    }
+  }
+  res.redirect("/");
+});
 
+/*
+Funkcija koja nam vraca delove liste sadrzaj. Ako zahtev nema neki upit, vratice sve elemente
+te liste. Ako smo vrsili pretragu, pozvace search() funkciju i poslati klijentu njenu 
+povratnu vrednost 
+*/
 app.get('/sadrzaj', function (req, res) {
   var ret = null;
   if (Object.keys(req.query).length === 0)
@@ -116,6 +155,24 @@ app.post('/logintest/', function (req, res) {
   }
 });
 
+/*
+Funkcija koja prosledjuje podatke iz forme za izmenu i pise ih u fajl
+*/
+app.post('/izmena*', function (req, res) {
+  var id = req.query.id
+  for (i = 0; i < sadrzaj.length; i++) {
+    if (sadrzaj[i].id == id) {
+      sadrzaj[i].price = req.body.price;
+      sadrzaj[i].title = req.body.header;
+      file.pisiUFajl(sadrzajFajl, sadrzaj);
+    }
+  }
+  res.redirect('/');
+});
+/*
+Primer POST metode koja dovodi do dodavanja novog korisnika 
+i redirektuje nazad na startnu stranicu
+*/
 app.post('/registertest/', function (req, res) {
   var noviKorisnik = new Object;
   noviKorisnik.ime = req.body.ime;

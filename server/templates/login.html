@@ -12,6 +12,7 @@
                     var res = document.getElementById("result")
                     while (res.lastChild)
                         res.removeChild(res.lastChild);
+                    console.log(content);
                     res.appendChild(document.createTextNode(content));
                     if (this.status == 403)
                         res.style.setProperty("color", "red");
@@ -37,8 +38,10 @@
         <input type="text" name="username" id="username" />
         <label>Password: </label>
         <input type="password" name="password" id="password" />
+        <button type="submit">submit</button>
         <h1 id="result"></h1>
-        <button type="submit">login</button>
+        <br/>
+        <a href="../register">Niste član? Registrujte se!</a>
     </form>
 </body>
 
