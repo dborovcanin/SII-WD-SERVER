@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+        function fillData(content) {
+            var header = document.getElementById("header");
+            header.appendChild(document.createTextNode(content.title));
+            var img = document.getElementById("image");
+            img.setAttribute("src", content.image);
+            var price = document.getElementById('price');
+            price.appendChild(document.createTextNode(content.price));
+        }
+        function load() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(xhttp.responseText);
+                    content = JSON.parse(xhttp.responseText);
+                    fillData(content);
+                }
+            };
+            xhttp.open("GET", "elementData" + window.location.search, true);
+            xhttp.send();
+
+        }
+    </script>
+</head>
+
+<body onload="load()">
+    <h1 id="header"></h1>
+    <h2 id="price"></h2>
+    <img id="image" alt="image" src=".">
+</body>
+
+</html>

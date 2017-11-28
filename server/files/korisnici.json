@@ -1,1 +1,12 @@
-[{"id":"0","korisnickoIme":"aleksa","sifra":"1123"},{"id":"1","korisnickoIme":"dusan","sifra":"2232"}]
+[
+    {
+        "id": "0",
+        "korisnickoIme": "aleksa",
+        "sifra": "1123"
+    },
+    {
+        "id": "1",
+        "korisnickoIme": "dusan",
+        "sifra": "1"
+    }
+]

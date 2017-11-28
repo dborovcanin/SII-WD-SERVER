@@ -1,14 +1,9 @@
-var content = [{ price: '150', title: 'Naslov prvi', image: '../resources/imgs/img1.jpg' },
-{ price: '300', title: 'Naslov drugi', image: '../resources/imgs/img2.jpg' },
-{ price: '250', title: 'Naslov treci', image: '../resources/imgs/img3.jpg' },
-{ price: '280', title: 'Naslov cetvrti', image: '../resources/imgs/img4.jpg' }];
-
-
+var content;
 function fillTemplate(data, id) {
 
     var ad = document.createElement('div');
     ad.onclick = function() {
-        alert("AAAA");
+        window.location.href = "/element?id=" + id;
     }
     ad.classList.add('ad');
     ad.setAttribute('id', id);
@@ -38,8 +33,23 @@ function srch(e) {
         searchByTitle();
 }
 
+function getData() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            content = JSON.parse(xhttp.responseText);
+            fillData(content);
+        }
+    };
+    xhttp.open("GET", "sadrzaj", true);
+    xhttp.send();
+}
+
 function fillData(data) {
     var advertisements = document.getElementById('ads');
+    while (advertisements.firstChild) {
+        advertisements.removeChild(advertisements.firstChild);
+    }
     for (var elem in data) {
         advertisements.appendChild(fillTemplate(data[elem], elem));
     }
@@ -48,17 +58,16 @@ function fillData(data) {
 function searchByTitle() {
     var query = document.getElementById('search').value;
     var alertItem = document.getElementById('alertItem');
-    if (query == "" && alertItem.textContent == "") {
-            alertItem.appendChild(document.createTextNode('Please insert valid query!'));
-    }
-    else {
-        var q = query.toLowerCase();
-        for (dinosaurus in content) {
-            if (content[dinosaurus].title.toLowerCase().includes(q)) {
-                document.getElementById(dinosaurus).classList.add('found');
-            }
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            content = JSON.parse(xhttp.responseText);
+            fillData(content);
         }
-    }
+    };
+    xhttp.open("GET", "sadrzaj?criteria=" + query, true);
+    xhttp.send();
 }
 
 function clearAlert() {

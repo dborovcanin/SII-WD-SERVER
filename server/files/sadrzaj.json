@@ -1,0 +1,26 @@
+[
+    {
+        "id": 0,
+        "price": "150",
+        "title": "Naslov prvi",
+        "image": "../resources/imgs/img1.jpg"
+    },
+    {
+        "id": "1",
+        "price": "300",
+        "title": "Naslov drugi",
+        "image": "../resources/imgs/img2.jpg"
+    },
+    {
+        "id": 2,
+        "price": "250",
+        "title": "Naslov treci",
+        "image": "../resources/imgs/img3.jpg"
+    },
+    {
+        "id": 3,
+        "price": "280",
+        "title": "Naslov cetvrti",
+        "image": "../resources/imgs/img4.jpg"
+    }
+]
