@@ -10,7 +10,7 @@ function fillTemplate(data, id) {
 
     var title = document.createElement('div');
     title.appendChild(document.createTextNode(data.title));
-    title.classList.add('adTitle');
+    title.classList.add('title');
 
     var price = document.createElement('div');
     price.appendChild(document.createTextNode('TICKET: ' + data.price + ' RSD'));
@@ -73,21 +73,8 @@ function searchByTitle() {
 function clearAlert() {
     document.getElementById('alertItem').textContent = '';
 
-    // var found = document.getElementsByClassName('found');
-    // var i;
-    // var indexes = []
-    // for (i = 0; i < found.length; i++) {
-    //     indexes.push(found[i].id);
-    // }
-
-    // for (ind in indexes)
-    //     document.getElementById(indexes[ind]).className = 'ad';
     var found = document.querySelectorAll("div.found");
-    // for (var i = 0; i < found.length; i++) {
-    //     document.getElementById(i).className = 'ad';
-    // }
     for (var item of found) {
-        // item.className = 'ad';
         item.classList.remove('found');
     }
 }

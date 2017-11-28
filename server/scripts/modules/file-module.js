@@ -13,6 +13,6 @@ function pisiUFajl(imefajla, podaci) {
 }
 
 module.exports = {
-	ucitajIzFajla : ucitajIzFajla,
-	pisiUFajl : pisiUFajl,
+	ucitajIzFajla: ucitajIzFajla,
+	pisiUFajl: pisiUFajl,
 };

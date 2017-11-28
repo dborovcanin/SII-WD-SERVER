@@ -3,7 +3,8 @@ var url = require('url');
 var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
-var file = require("./scripts/filemodule.js");
+var file = require("./scripts/modules/file-module.js");
+var searchEngine = require("./scripts/modules/search-module.js");
 var app = express();
 
 
@@ -45,8 +46,15 @@ app.get('/styles/*', function (req, res) {
   res.end(css);
 });
 
+// Zabranjen pristup Express modulima.
+app.all('/scripts/modules/*', function (req,res, next) {
+  res.status(403).send({
+     message: 'Access Forbidden'
+  });
+});
+
 // Sav JS kod je u scripts folderu.
-app.get('/scripts/*', function (req, res) {
+app.get('/scripts/*.js', function (req, res) {
   var js = fs.readFileSync("." + req.path);
   res.writeHead(200, { 'Content-Type': 'text/javascript' });
   res.end(js);
@@ -67,7 +75,6 @@ app.get('/elementData*', function (req, res) {
     return element.id == id;
   })
   ret = JSON.stringify(ret);
-  console.log("Vracam " + ret);
   res.writeHead(200, { 'Content-Type': 'text/json' });
   res.end(ret);
 });
@@ -83,18 +90,11 @@ app.get('/sadrzaj', function (req, res) {
   if (Object.keys(req.query).length === 0)
     ret = JSON.stringify(sadrzaj);
   else
-    ret = JSON.stringify(search(req.query));
+    ret = JSON.stringify(searchEngine.search(req.query, sadrzaj));
   
   res.writeHead(200, { 'Content-Type': 'text/json' });
   res.end(ret);  
 });
-
-function search(query) {
-  var q = query.criteria.toLowerCase();
-  return sadrzaj.filter(function(elem) {
-    return elem.title.toLowerCase().includes(q);
-  })
-}
 
 // Svi ostali resursi, uglavnom se odnosi na slike.
 app.get('/resources/*', function (req, res) {
@@ -103,17 +103,12 @@ app.get('/resources/*', function (req, res) {
 
 // Samo primjer POST metode.
 app.post('/logintest/', function (req, res) {
-  var korisnik = null;
-  for (i = 0; i < korisnici.length; i++) {
-    if (req.body.korisnickoIme == korisnici[i].korisnickoIme && req.body.sifra == korisnici[i].sifra) {
-      korisnik = korisnici[i];
-      break;
-    }
-  }
-
-  if (korisnik) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var user = searchEngine.findUser(username, password, korisnici);
+  if (user) {
     res.writeHead(200, { "Content-Type": 'text/html' });
-    res.end("Uspeli ste da se ulogujete kao " + korisnik.korisnickoIme);
+    res.end("Uspeli ste da se ulogujete kao " + user.username);
   }
   else {
     res.writeHead(403, { 'Content-Type': 'text/html' });

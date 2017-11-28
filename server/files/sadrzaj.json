@@ -2,19 +2,19 @@
     {
         "id": 0,
         "price": "150",
-        "title": "Naslov prvi",
+        "title": "Neki naslov",
         "image": "../resources/imgs/img1.jpg"
     },
     {
         "id": "1",
         "price": "300",
-        "title": "Naslov drugi",
+        "title": "Neki drugi naslov",
         "image": "../resources/imgs/img2.jpg"
     },
     {
         "id": 2,
         "price": "250",
-        "title": "Naslov treci",
+        "title": "Neki naslov broj 3",
         "image": "../resources/imgs/img3.jpg"
     },
     {
