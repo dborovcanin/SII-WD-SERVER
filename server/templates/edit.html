@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="../scripts/single-element.js"></script>
+    <script type="text/javascript" src="../scripts/edit.js"></script>
     <script type="text/javascript">
         function fillData(content) {
             var header = document.getElementById("title");
@@ -21,7 +22,7 @@
 </head>
 
 <body onload="load(fillData)">
-    <form method="PUT" action="/edit">
+    <form onsubmit="return edit();">
         <label for="header">Naziv artikla: </label>
         <input id="title" name="title" type="text" style="font-size:150%" />
         <br/>
@@ -30,7 +31,7 @@
         <br/>
         <img id="image" alt="image" src="#">
         <br>
-        <input type="file" name="image" />
+        <input type="file" name="image" id="new-image" />
         <br/>
         <input type="submit"/>
     </form>

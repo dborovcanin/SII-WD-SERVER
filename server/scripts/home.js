@@ -41,7 +41,7 @@ function getData() {
             fillData(content);
         }
     };
-    xhttp.open("GET", "../sadrzaj", true);
+    xhttp.open("GET", "/content", true);
     xhttp.send();
 }
 

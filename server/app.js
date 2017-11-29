@@ -13,11 +13,11 @@ app.use(bodyParser.json());
 
 
 var templates = "./templates/";
-var usersFile = "./files/korisnici.json";
-var sadrzajFajl = "./files/sadrzaj.json";
+var usersFile = "./files/users.json";
+var contentFile = "./files/content.json";
 
-var users = file.ucitajIzFajla(usersFile);
-var sadrzaj = file.ucitajIzFajla(sadrzajFajl);
+var users = file.readFromFile(usersFile);
+var sadrzaj = file.readFromFile(contentFile);
 
 // Ako gadjamo default, treba da se vrati ova stranica.
 app.get('/', function (req, res) {
@@ -75,12 +75,6 @@ app.get('/element', function(req, res) {
   res.end(html);
 })
 
-app.get('/izmeni', function(req, res) {
-  var html = fs.readFileSync("./templates" + req.path + ".html");
-  res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.end(html);
-})
-
 /*
 Adresa koja klijentu vraca pojedinacne elemente liste sadrzaj, u zavisnosti od toga
 koje je id u zahtevu
@@ -108,13 +102,14 @@ funkcija za brisanje nekog elementa iz sadrzaja i onda redirektuje klijenta na h
 preporucljivo sacuvati backup verziju sadrzaj.json fajla pre nego sto pokusate ovo da ne morate
 rucno da dopisujete izbrisan element 
 */
-app.delete('/remove*' , function(req, res) {
+app.delete('/remove' , function(req, res) {
   if (Object.keys(req.query).length === 0)
     notFound(req, res);
   var id = req.query.id;
   for (i = 0; i < sadrzaj.length; i ++){ // Moze se koristiti findIndex funkcija umesto petlje.
     if (sadrzaj[i].id == id){
-      file.pisiUFajl(sadrzajFajl, sadrzaj);
+      sadrzaj.splice(i, 1);
+      file.writeToFile(contentFile, sadrzaj);
     }
   }
   res.writeHead(204, { 'Content-Type': 'text/html' });
@@ -126,7 +121,7 @@ Funkcija koja nam vraca delove liste sadrzaj. Ako zahtev nema neki upit, vratice
 te liste. Ako smo vrsili pretragu, pozvace search() funkciju i poslati klijentu njenu 
 povratnu vrednost 
 */
-app.get('/sadrzaj', function (req, res) {
+app.get('/content', function (req, res) {
   var ret = null;
   if (Object.keys(req.query).length === 0)
     ret = JSON.stringify(sadrzaj);
@@ -168,15 +163,17 @@ Funkcija koja prosledjuje podatke iz forme za izmenu i pise ih u fajl.
 */
 app.put('/edit', function (req, res) {
   var id = req.query.id
-  console.log(req.body);
   for (i = 0; i < sadrzaj.length; i++) {
     if (sadrzaj[i].id == id) {
       sadrzaj[i].price = req.body.price;
-      sadrzaj[i].title = req.body.header;
-      file.pisiUFajl(sadrzajFajl, sadrzaj);
+      sadrzaj[i].title = req.body.title;
+      sadrzaj[i].image = req.body.image;
+      file.writeToFile(contentFile, sadrzaj);
+      break;
     }
   }
-  // res.redirect('/');
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end();
 });
 
 /*
@@ -194,7 +191,7 @@ app.post('/register/', function (req, res) {
   }
   else {
     users.push(newUser);
-    file.pisiUFajl(usersFile, users);
+    file.writeToFile(usersFile, users);
     res.redirect("/");  
   }
 });

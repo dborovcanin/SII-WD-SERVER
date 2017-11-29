@@ -12,7 +12,7 @@
             var price = document.getElementById('price');
             price.appendChild(document.createTextNode(content.price));
             var edit = document.getElementById("edit");
-            edit.setAttribute("href" , "../edit?id=" + content.id);
+            edit.setAttribute("href" , "/edit?id=" + content.id);
             var remove = document.getElementById("remove");
             remove.onclick = function () {
                 var xhttp = new XMLHttpRequest();
