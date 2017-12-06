@@ -1,4 +1,3 @@
-var fs = require('fs');
 var url = require('url');
 var path = require('path');
 var express = require('express');
@@ -21,35 +20,34 @@ var sadrzaj = file.readFromFile(contentFile);
 
 // Ako gadjamo default, treba da se vrati ova stranica.
 app.get('/', function (req, res) {
-  var html = fs.readFileSync(templates + 'home.html');
+  var html = file.read(templates + 'home.html');
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
 });
 
 // HTML kod.
 app.get('/templates/*', function (req, res) {
-  var html = fs.readFileSync("." + req.path);
+  var html = file.read("." + req.path);
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
 });
 
 app.get('/login', function (req, res) {
-  var html = fs.readFileSync("./templates" + req.path + ".html");
+  var html = file.read("./templates" + req.path + ".html");
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
 });
 
+// Registracija korisnika.
 app.get('/register', function (req, res) {
-  var html = fs.readFileSync("./templates" + req.path + ".html");
+  var html = file.read("./templates" + req.path + ".html");
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
 });
-
-app.post('/re')
 
 // Sav CSS je ovdje.
 app.get('/styles/*', function (req, res) {
-  var css = fs.readFileSync("." + req.path);
+  var css = file.read("." + req.path);
   res.writeHead(200, { 'Content-Type': 'text/css' });
   res.end(css);
 });
@@ -63,14 +61,14 @@ app.all('/scripts/modules/*', function (req,res, next) {
 
 // Sav JS kod je u scripts folderu.
 app.get('/scripts/*.js', function (req, res) {
-  var js = fs.readFileSync("." + req.path);
+  var js = file.read("." + req.path);
   res.writeHead(200, { 'Content-Type': 'text/javascript' });
   res.end(js);
 });
 
 // Stranica pojedinacnog entiteta.
 app.get('/element', function(req, res) {
-  var html = fs.readFileSync("./templates" + req.path + ".html");
+  var html = file.read("./templates" + req.path + ".html");
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
 })
@@ -137,6 +135,7 @@ app.get('/resources/*', function (req, res) {
   res.sendFile(req.path, { root: path.join(__dirname, '.') });
 });
 
+
 // Primjer POST metode. U HTML kodu pogledati kako se salje zahtev.
 app.post('/login/', function (req, res) { // Na jedan endpoint se mogu slati razliciti zahtevi: GET, POST...
   var username = req.body.username;
@@ -156,7 +155,7 @@ app.post('/login/', function (req, res) { // Na jedan endpoint se mogu slati raz
 Funkcija koja dobavlja formu za editovanje entiteta. Potom se iz te forme traze podaci.
 */
 app.get('/edit', function (req, res) {
-  var html = fs.readFileSync("./templates" + req.path + ".html");
+  var html = file.read("./templates" + req.path + ".html");
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.end(html);
 })

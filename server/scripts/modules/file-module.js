@@ -1,18 +1,24 @@
-var fs = require('file-system');
+var fs = require('fs');
 
-function readFromFile(imefajla) {
-	var txt = fs.readFileSync(imefajla, 'utf8');
-	var listaobjekata = JSON.parse(txt);
-
-	return listaobjekata;
+// Citanje iz fajla.
+function readFromFile(fileName) {
+	var txt = fs.readFileSync(fileName, 'utf8');
+	var listOfObjects = JSON.parse(txt);
+	return listOfObjects;
 }
 
-function writeToFile(imefajla, podaci) {
-	var txt = JSON.stringify(podaci);
-	fs.writeFileSync(imefajla, txt);
+// Upis u fajl.
+function writeToFile(fileName, data) {
+	var txt = JSON.stringify(data);
+	fs.writeFileSync(fileName, txt);
+}
+
+function read(path) {
+	return fs.readFileSync(path);
 }
 
 module.exports = {
 	readFromFile: readFromFile,
 	writeToFile: writeToFile,
+	read: read
 };

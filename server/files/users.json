@@ -1,1 +1,22 @@
-[{"id":"0","username":"aleksa","sifra":"1123"},{"id":"1","username":"dusan","password":"1"},{"ime":"dusan","sifra":"b","id":2},{"ime":"k","sifra":"k","id":3},{"ime":"k","sifra":"k","id":4},{"ime":"dusan","sifra":"3","id":5},{"username":"dusan1","password":"","id":6}]
+[
+    {
+        "id": "0",
+        "username": "aleksa",
+        "password": "1123"
+    },
+    {
+        "id": "1",
+        "username": "dusan",
+        "password": "1"
+    },
+    {
+        "username": "dusan",
+        "password": "b",
+        "id": 2
+    },
+    {
+        "username": "admin",
+        "password": "admin",
+        "id": 3
+    }
+]
