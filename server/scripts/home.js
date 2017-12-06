@@ -66,7 +66,7 @@ function searchByTitle() {
             fillData(content);
         }
     };
-    xhttp.open("GET", "sadrzaj?criteria=" + query, true);
+    xhttp.open("GET", "content?criteria=" + query, true);
     xhttp.send();
 }
 

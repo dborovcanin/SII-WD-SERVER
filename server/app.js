@@ -1,4 +1,4 @@
-var fs = require('file-system');
+var fs = require('fs');
 var url = require('url');
 var path = require('path');
 var express = require('express');
@@ -68,7 +68,7 @@ app.get('/scripts/*.js', function (req, res) {
   res.end(js);
 });
 
-
+// Stranica pojedinacnog entiteta.
 app.get('/element', function(req, res) {
   var html = fs.readFileSync("./templates" + req.path + ".html");
   res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -152,6 +152,9 @@ app.post('/login/', function (req, res) { // Na jedan endpoint se mogu slati raz
   }
 });
 
+/*
+Funkcija koja dobavlja formu za editovanje entiteta. Potom se iz te forme traze podaci.
+*/
 app.get('/edit', function (req, res) {
   var html = fs.readFileSync("./templates" + req.path + ".html");
   res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -160,6 +163,7 @@ app.get('/edit', function (req, res) {
 
 /*
 Funkcija koja prosledjuje podatke iz forme za izmenu i pise ih u fajl.
+Koristi se PUT metoda.
 */
 app.put('/edit', function (req, res) {
   var id = req.query.id
@@ -186,7 +190,7 @@ app.post('/register/', function (req, res) {
   newUser.password = req.body.password;
   newUser.id = users.length;
   if (searchEngine.checkIfUserExists(newUser.username, users)) {
-    res.writeHead(409, { 'Content-Type': 'text/html' }); // Code 409 oznacava konflikt.
+    res.writeHead(409, { 'Content-Type': 'text/html' }); // Code 409 oznacava konflikt. Moze i 412.
     res.end('Korisnik vec postoji!');
   }
   else {
