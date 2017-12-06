@@ -190,13 +190,15 @@ app.post('/register/', function (req, res) {
   newUser.password = req.body.password;
   newUser.id = users.length;
   if (searchEngine.checkIfUserExists(newUser.username, users)) {
-    res.writeHead(409, { 'Content-Type': 'text/html' }); // Code 409 oznacava konflikt. Moze i 412.
+    res.writeHead(409, { 'Content-Type': 'text/html' }); // Kod 409 oznacava konflikt. Moze i 412.
     res.end('Korisnik vec postoji!');
   }
   else {
     users.push(newUser);
     file.writeToFile(usersFile, users);
-    res.redirect("/");  
+    // res.writeHead(201, {'Content-Type': 'text/html'}); // Kod 201 ozancava created.
+    // res.end();
+    res.redirect("/"); // Primjer redirekcije. Ovo iznad ima vise smisla, posto bi trebalo da vratimo neki kod.
   }
 });
 

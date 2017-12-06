@@ -1,1 +1,26 @@
-[{"id":1,"price":"300","title":"Prvi naslov prviii","image":"../resources/imgs/img3.jpg"},{"id":2,"price":"308","title":"Neki drugi naslov","image":"../resources/imgs/img2.jpg"},{"id":3,"price":"250","title":"Neki naslov broj 3","image":"../resources/imgs/img1.jpg"},{"id":4,"price":"280","title":"Naslov cetvrti","image":"../resources/imgs/img4.jpg"}]
+[
+    {
+        "id": 1,
+        "price": "300",
+        "title": "Prvi naslov prviii",
+        "image": "../resources/imgs/img3.jpg"
+    },
+    {
+        "id": 2,
+        "price": "300",
+        "title": "Neki drugi naslov",
+        "image": "../resources/imgs/img2.jpg"
+    },
+    {
+        "id": 3,
+        "price": "250",
+        "title": "Neki naslov broj 3",
+        "image": "../resources/imgs/img1.jpg"
+    },
+    {
+        "id": 4,
+        "price": "280",
+        "title": "Naslov cetvrti",
+        "image": "../resources/imgs/img4.jpg"
+    }
+]
